@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from bottle import Bottle, run
+from bottle import Bottle, run, static_file
 
 serv = Bottle()
 
@@ -42,5 +42,13 @@ def settings_page():
 @serv.post("/account_settings.php")
 def save_changed_settings():
     return "save changed settings"
+
+
+# Static
+@serv.get("/static/<filepath:path>")
+def static(filepath):
+    print(filepath)
+    return static_file(filepath, root="./public")
+
 
 run(serv, host="localhost", port=8080)
