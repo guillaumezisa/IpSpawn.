@@ -15,7 +15,8 @@ def index():
 @serv.get("/sign_up.php")
 @serv.get("/sign_in.php")
 def sign_up_or_sign_in_page():
-    return "sign up and sign ip page"
+    with open("./html/sign.html", "r") as sign_page:
+        return sign_page.read()
 
 
 @serv.post("/sign_up.php")
