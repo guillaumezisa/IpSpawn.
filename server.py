@@ -7,7 +7,9 @@ serv = Bottle()
 @serv.get("/")
 @serv.get("/index.php")
 def index():
-    return "Hello World"
+    with open("./html/index.html", "r") as index_page:
+        return index_page.read()
+
 
 # Sign up, in, out
 @serv.get("/sign_up.php")
