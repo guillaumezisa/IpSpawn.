@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from bottle import Bottle, run, static_file
+from bottle import Bottle, run, static_file, template
 
 serv = Bottle()
 
@@ -52,4 +52,4 @@ def static(filepath):
     return static_file(filepath, root="./public")
 
 
-run(serv, host="localhost", port=8080)
+run(serv, host="localhost", port=80)
