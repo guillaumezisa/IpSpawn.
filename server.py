@@ -4,12 +4,17 @@ from bottle import Bottle, run, static_file, template
 
 serv = Bottle()
 
+#VOIR POUR LA VARIABLE DE SESSION:/
+header="./html/header_offline.html"
+footer="./html/footer.html"
+
 @serv.get("/")
 @serv.get("/index.php")
 def index():
-    with open("./html/index.html", "r") as index_page:
-        return index_page.read()
-
+#    with open("./html/index.html", "r") as index_page:
+#        return index_page.read()
+    page =template(header)+template("./html/index.html")+template(footer)
+    return page
 
 # Sign up, in, out
 @serv.get("/sign_up.php")
