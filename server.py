@@ -11,8 +11,6 @@ footer="./html/footer.html"
 @serv.get("/")
 @serv.get("/index.php")
 def index():
-#    with open("./html/index.html", "r") as index_page:
-#        return index_page.read()
     page =template(header)+template("./html/index.html")+template(footer)
     return page
 
@@ -63,5 +61,4 @@ def send_image(filename):
     return static_file(filename, root='style/pictures/png/', mimetype='image/png')
 
 
-
-run(serv, host="localhost", port=80)
+run(serv, host="localhost", port=8080)
