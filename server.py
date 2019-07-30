@@ -56,5 +56,12 @@ def static(filepath):
     print(filepath)
     return static_file(filepath, root="./public")
 
+#--------------------------------PICTURES---------------------------------------
+
+@serv.get('/style/pictures/png/<filename:re:.*\.png>')
+def send_image(filename):
+    return static_file(filename, root='style/pictures/png/', mimetype='image/png')
+
+
 
 run(serv, host="localhost", port=80)
