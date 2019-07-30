@@ -26,51 +26,52 @@
           font-size: 3.5rem;
         }
       }
-        body {
-          margin: 0;
-          height: 100vh;
-          width: 100vw;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .container_terminal {
-          width: 900px;
-          background-color: black;
-          padding: 4px;
-          box-sizing: border-box;
-          font-family: "Courier";
-          display: flex;
-          flex-direction: column;
-        }
-        .row_terminal {
-          display: flex;
-        }
-        .row_terminal > .col_terminal:first-child {
-          margin-top: -4px;
-        }
-        .row_terminal > .col_terminal:nth-child(2) {
-          margin: 0 6px;
-        }
-        .lightGreen {
-          color: #00F300;
-        }
-        .darkGreen {
-          color: #308A09;
-        }
-        .darkBlue {
-          color: #3a3a9c;
-        }
-        .red {
-          color: #CC0000;
-        }
-        .yellow {
-          color: #FBE64D;
-        }
-      </style>
+
+      .jumbotron {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .jumbotron h3 {
+        align-self: flex-start;
+      }
+      .container-term {
+        background-color: black;
+        padding: 4px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        font-family: "Courier";
+        display: flex;
+        flex-direction: column;
+        max-width: 900px;
+      }
+      .row-term {
+        display: flex;
+      }
+      .row-term > .col-term:first-child {
+        margin-top: -4px;
+      }
+      .row-term > .col-term:nth-child(2) {
+        margin: 0 6px;
+      }
+      .lightGreen {
+        color: #00F300;
+      }
+      .darkGreen {
+        color: #308A09;
+      }
+      .darkBlue {
+        color: #3a3a9c;
+      }
+      .red {
+        color: #CC0000;
+      }
+      .yellow {
+        color: #FBE64D;
+      }
     </style>
     <nav class="site-header sticky-top py-1 bg-dark">
-      <div class="container d-flex flex-column flex-md-row_terminal justify-content-between">
+      <div class="container d-flex flex-column flex-md-row justify-content-between">
         <a class="py-3" href="#">
           <svg xmlns="style/pictures/svg/Ipspawn.svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" </svg>
         </a>
