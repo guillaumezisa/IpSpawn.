@@ -27,7 +27,7 @@ def sign_up():
     return "sign up"
 
 
-@serv.post("sign_in.php")
+@serv.post("/sign_in.php")
 def sign_in():
     return "sign in"
 
