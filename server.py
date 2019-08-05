@@ -11,15 +11,15 @@ footer="./html/footer.html"
 @serv.get("/")
 @serv.get("/index.php")
 def index():
-    page =template(header)+template("./html/index.html")+template(footer)
+    page=template(header)+template("./html/index.html")+template(footer)
     return page
 
 # Sign up, in, out
 @serv.get("/sign_up.php")
 @serv.get("/sign_in.php")
 def sign_up_or_sign_in_page():
-    with open("./html/sign.html", "r") as sign_page:
-        return sign_page.read()
+    page=template(header)+template("./html/sign.html")+template(footer)
+    return page
 
 
 @serv.post("/sign_up.php")
