@@ -1,0 +1,19 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    container_name : database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+#docker run --cap-add=NET_ADMIN -dit imagename /bin/sh -c "/sbin/ip addr add 172.17.0.12 dev eth0; bash"
