@@ -10,6 +10,8 @@
 sudo apt install python3 -y
 sudo apt install docker -y
 sudo apt install docker-compose -y
-sudo pip3 install bottle
-sudo pip3 install psycopg2
-sudo pip3 install pygresql
+sudo apt-get install postgresql-devel -y
+pip3 install --user --upgrade setuptools
+pip3 install --user bottle
+pip3 install --user psycopg2-binary
+pip3 install --user pygresql
