@@ -1,5 +1,6 @@
 #You can't execute this script you need to write it step by step
 #Launch the database with in one terminal
+sudo service docker start
 sudo  docker-compose -f docker-compose.yml up #(in model)
 
 #Connect to it and go to postgres shell
