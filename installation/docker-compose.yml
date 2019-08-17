@@ -10,9 +10,3 @@ services:
     environment:
       POSTGRES_PASSWORD: "facauchere"
       POSTGRES_DB: "ipspawn"
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8081:8081

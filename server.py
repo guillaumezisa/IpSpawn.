@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
-from bottle import Bottle, run, static_file, template
+from bottle import Bottle, run, static_file, template, request
+import datetime
+import psycopg2
+import os
 
 serv = Bottle()
 
@@ -22,14 +25,14 @@ def sign_up_or_sign_in_page():
     return page
 
 
-@serv.post("/sign_up.php")
+@serv.post("/sign_up.php",method="POST")
 def sign_up():
-    return "sign up"
-
+    from controller import subscribe
 
 @serv.post("/sign_in.php")
 def sign_in():
     return "sign in"
+
 
 
 @serv.get("/sign_out.php")
@@ -61,4 +64,4 @@ def send_image(filename):
     return static_file(filename, root='./style/pictures/png/', mimetype='image/png')
 
 
-run(serv, host="localhost", port=8080)
+run(serv, host="localhost", port=9090, reloader=True, debug=True)
