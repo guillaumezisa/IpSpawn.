@@ -5,6 +5,7 @@ import psycopg2, datetime
 
 # IMPORT THE LOCAL MODULES -----------------------------------------------------
 from controller import functions_database
+from controller import functions_subscribe
 
 # CONNEXION TO THE DATABASE ----------------------------------------------------
 connect = psycopg2.connect( host='172.19.0.2', user='postgres', password='facauchere', dbname='ipspawn' )
@@ -20,7 +21,7 @@ pp="profiles_pictures/nopic.png"
 date=str(datetime.date.today())
 
 # FUNCTION TO VERIFY IF THE PASSWORDS MATCH ------------------------------------
-pass_check = functions_database.verify_pass(pass1,pass2)
+pass_check = functions_subscribe.verify_pass(pass1,pass2)
 if ( pass_check == 1 ):
     print("redirection error pass 1")
 elif ( pass_check == 2 ):
@@ -30,16 +31,14 @@ elif ( pass_check == 3 ):
 elif ( pass_check == 0 ):
     # FUNCTION TO VERIFY IF THE MAIL IS ALREADY TAKEN --------------------------
     query = "SELECT COUNT(EMAIL) FROM USERS WHERE EMAIL = '"+email+"';"
-    email_check = functions_database.verify_email(connect,email,query)
-    formated_email_check = functions_database.format_count(email_check)
-    if ( formated_email_check != 0 ):
+    email_check = functions_subscribe.verify_email(connect,email,query)
+    if ( email_check[0] != "0" ):
         print("redirection error email exist")
     else :
         # FUNCTION TO VERIFY IF THE PSEUDO IS ALREADY TAKEN --------------------
         query = "SELECT COUNT(PSEUDO) FROM USERS WHERE PSEUDO = '"+pseudo+"';"
-        pseudo_check = functions_database.verify_pseudo(connect,pseudo,query)
-        formated_pseudo_check = functions_database.format_count(pseudo_check)
-        if ( formated_pseudo_check != 0 ):
+        pseudo_check = functions_subscribe.verify_pseudo(connect,pseudo,query)
+        if ( pseudo_check != 0 ):
             print("redirection error pseudo exist")
         else :
             # FINALLY INSERT TO THE DATABASE -----------------------------------
