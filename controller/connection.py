@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 import psycopg2
 
+
+# CONNEXION VARIABLES ---------------------------------------------------------
 hostname = '172.19.0.2'
+
+
 username = 'postgres'
 password = 'facauchere'
 database = 'ipspawn'
