@@ -37,13 +37,18 @@ elif (pass_check == 3):
     print("redirection error pass 3")
 elif (pass_check == 0):
     # FUNCTION TO VERIFY IF THE MAIL IS ALREADY TAKEN -------------------------
-    query = "SELECT COUNT(EMAIL) FROM USERS WHERE EMAIL = '"+email+"';"
+    query = "SELECT COUNT(EMAIL)\
+        FROM USERS\
+        WHERE EMAIL ='{email}';\
+    ".format(email=email)
     email_check = functions_subscribe.verify_email(connect, email, query)
     if (email_check[0] != "0"):
         print("redirection error email exist")
     else:
         # FUNCTION TO VERIFY IF THE PSEUDO IS ALREADY TAKEN -------------------
-        query = "SELECT COUNT(PSEUDO) FROM USERS WHERE PSEUDO = '"+pseudo+"';"
+        query = "SELECT COUNT(PSEUDO)\
+            FROM USERS\
+            WHERE PSEUDO = {psd}';".format(psd=pseudo)
         pseudo_check = functions_subscribe.verify_pseudo(
             connect, pseudo, query
         )
