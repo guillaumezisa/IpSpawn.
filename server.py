@@ -25,7 +25,7 @@ def sign_up_or_sign_in_page():
     return page
 
 
-@serv.post("/sign_up.php",method="POST")
+@serv.post("/sign_up.php")
 def sign_up():
     from controller import subscribe
 
