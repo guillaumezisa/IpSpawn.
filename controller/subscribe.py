@@ -30,7 +30,7 @@ elif pass_check == 3 :
     print("Error : password too large")
 elif pass_check == 0 :
     # FUNCTION TO VERIFY IF THE MAIL AND PSEUDO ARE NOT ALREADY TAKEN --------------
-    
+
 
 # FINALLY INSERT TO THE DATABASE -----------------------------------------------
 query="INSERT INTO USERS (EMAIL,PSEUDO,PASSWORD,POINTS,STATUS,PP,DATES)VALUES ('"+email+"','"+pseudo+"','"+pass1+"','"+points+"','"+status+"','"+pp+"','"+date+"');"

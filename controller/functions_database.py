@@ -17,8 +17,6 @@ def verify_pass ( pass1 , pass2 ):
     else :
         return "0"
 
-
-
 def verify_email ( email ):
     return "email"
 
