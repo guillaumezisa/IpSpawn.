@@ -7,21 +7,23 @@ import os
 
 serv = Bottle()
 
-#VOIR POUR LA VARIABLE DE SESSION:/
-header="./html/header_offline.html"
-footer="./html/footer.html"
+# VOIR POUR LA VARIABLE DE SESSION:/
+header = "./html/header_offline.html"
+footer = "./html/footer.html"
+
 
 @serv.get("/")
 @serv.get("/index.php")
 def index():
-    page=template(header)+template("./html/index.html")+template(footer)
+    page = template(header)+template("./html/index.html")+template(footer)
     return page
+
 
 # Sign up, in, out
 @serv.get("/sign_up.php")
 @serv.get("/sign_in.php")
 def sign_up_or_sign_in_page():
-    page=template(header)+template("./html/sign.html")+template(footer)
+    page = template(header)+template("./html/sign.html")+template(footer)
     return page
 
 
@@ -29,10 +31,10 @@ def sign_up_or_sign_in_page():
 def sign_up():
     from controller import subscribe
 
+
 @serv.post("/sign_in.php")
 def sign_in():
     return "sign in"
-
 
 
 @serv.get("/sign_out.php")
@@ -57,11 +59,16 @@ def static(filepath):
     print(filepath)
     return static_file(filepath, root="./public")
 
-#--------------------------------PICTURES---------------------------------------
+# --------------------------------PICTURES-------------------------------------
 
-@serv.get('/style/pictures/png/<filename:re:.*\.png>')
+
+@serv.get('/style/pictures/png/<filename:re:.*.png>')
 def send_image(filename):
-    return static_file(filename, root='./style/pictures/png/', mimetype='image/png')
+    return static_file(
+        filename,
+        root='./style/pictures/png/',
+        mimetype='image/png'
+    )
 
 
 run(serv, host="localhost", port=9090, reloader=True, debug=True)
