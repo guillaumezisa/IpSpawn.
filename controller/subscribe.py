@@ -17,45 +17,74 @@ connect = psycopg2.connect(
     dbname='ipspawn'
 )
 
-# COLLECT INFORMATION ---------------------------------------------------------
-email = request.forms.get("email")
-pseudo = request.forms.get("pseudo")
-pass1 = request.forms.get("password")
-pass2 = request.forms.get("password_verification")
-points = "1"
-status = "1"
-pp = "profiles_pictures/nopic.png"
-date = str(datetime.date.today())
 
-# FUNCTION TO VERIFY IF THE PASSWORDS MATCH -----------------------------------
-pass_check = functions_subscribe.verify_pass(pass1, pass2)
-if (pass_check == 1):
-    print("redirection error pass 1")
-elif (pass_check == 2):
-    print("redirection error pass 2")
-elif (pass_check == 3):
-    print("redirection error pass 3")
-elif (pass_check == 0):
+# FUNCTION SUBSCRIBE
+def subscribe():
+    # COLLECT INFORMATION -----------------------------------------------------
+    subscriber = {
+        'email': request.forms.get("email"),
+        'pseudo': request.forms.get("pseudo"),
+        'pass1': request.forms.get("password"),
+        'pass2': request.forms.get("password_verification"),
+        'points': "1",
+        'status': "1",
+        'pp': "profiles_pictures/nopic.png",
+        'date': str(datetime.date.today())
+    }
+    checklist = {
+        "pass": "0",
+        "email": "0",
+        "pseudo": "0"
+    }
+    # FUNCTION TO VERIFY IF THE PASSWORDS MATCH -------------------------------
+    pass_check = functions_subscribe.verify_pass(
+        subscriber["pass1"], subscriber["pass2"]
+    )
+    if (pass_check == 1):
+        checklist["pass"] = "Le mot de passe n'est pas identique."
+    elif (pass_check == 2 or pass_check == 3):
+        checklist["pass"] = "Le mot de passe doit faire \
+        entre 4 et 50 charactères."
+    elif (pass_check == 0):
+        checklist["pass"] = True
+
     # FUNCTION TO VERIFY IF THE MAIL IS ALREADY TAKEN -------------------------
     query = "SELECT COUNT(EMAIL)\
         FROM USERS\
         WHERE EMAIL ='{email}';\
-    ".format(email=email)
-    email_check = functions_subscribe.verify_email(connect, email, query)
-    if (email_check[0] != "0"):
-        print("redirection error email exist")
-    else:
-        # FUNCTION TO VERIFY IF THE PSEUDO IS ALREADY TAKEN -------------------
-        query = "SELECT COUNT(PSEUDO)\
-            FROM USERS\
-            WHERE PSEUDO = {psd}';".format(psd=pseudo)
-        pseudo_check = functions_subscribe.verify_pseudo(
-            connect, pseudo, query
+    ".format(email=subscriber["email"])
+
+    email_check = functions_subscribe.verify_email(
+        connect, subscriber["email"], query
         )
-        if (pseudo_check != 0):
-            print("redirection error pseudo exist")
-        else:
-            # FINALLY INSERT TO THE DATABASE ----------------------------------
-            query = "INSERT INTO USERS (EMAIL,PSEUDO,PASSWORD,POINTS,STATUS,PP,DATES)VALUES ('"+email+"','"+pseudo+"','"+pass1+"','"+points+"','"+status+"','"+pp+"','"+date+"');"
-            functions_database.insert(connect, query)
-            print("A new user as been created")
+
+    if (email_check[0] != 0):
+        checklist["email"] = "L'email entrée existe déjà."
+    else:
+        checklist["email"] = True
+
+    # FUNCTION TO VERIFY IF THE PSEUDO IS ALREADY TAKEN -----------------------
+    query = "SELECT COUNT(PSEUDO)\
+        FROM USERS\
+        WHERE PSEUDO = '{psd}';".format(psd=subscriber["pseudo"])
+
+    pseudo_check = functions_subscribe.verify_pseudo(
+        connect, subscriber["pseudo"], query
+    )
+    if (pseudo_check[0] != 0):
+        checklist["pseudo"] = "Le pseudo choisit éxiste déjà."
+    else:
+        checklist["pseudo"] = True
+
+    if (checklist["pass"] and checklist["email"] and checklist["pseudo"]):
+        # FINALLY INSERT TO THE DATABASE --------------------------------------
+        query = "INSERT INTO USERS \
+            (EMAIL,PSEUDO,PASSWORD,POINTS,STATUS,PP,DATES)VALUES \
+            ('"+subscriber["email"]+"','"+subscriber["pseudo"]+"',\
+            '"+subscriber["pass1"]+"','"+subscriber["points"]+"',\
+            '"+subscriber["status"]+"','"+subscriber["pp"]+"',\
+            '"+subscriber["date"]+"');"
+
+        functions_database.insert(connect, query)
+
+    return checklist
