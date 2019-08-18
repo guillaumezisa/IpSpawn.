@@ -11,7 +11,7 @@ from controller import functions_subscribe
 
 # CONNEXION TO THE DATABASE ---------------------------------------------------
 connect = psycopg2.connect(
-    host='172.19.0.2',
+    host='172.19.0.3',
     user='postgres',
     password='facauchere',
     dbname='ipspawn'
@@ -88,3 +88,21 @@ def subscribe():
         functions_database.insert(connect, query)
 
     return checklist
+
+def message_subscribe( checklist ):
+        message="<br>"
+        if ( checklist["pass"] == True and checklist["email"] == True and checklist["pseudo"] == True):
+            message = "Vous avez bien été enregistré."
+            color = "bg-success"
+        if ( checklist["email"] != True ):
+            message = message + checklist['email'] +"<br>"
+            color = "bg-danger"
+        if ( checklist["pseudo"] != True ):
+            message = message + checklist['pseudo'] +"<br>"
+            color = "bg-danger"
+        if ( checklist["pass"] != True ):
+            message = message + checklist['pass'] +"<br>"
+            color = "bg-danger"
+        message = message + "<br>"
+        message_banniere = "<div class='container-fluid  "+color+"'><center>"+message+"</center></div>"
+        return message_banniere
