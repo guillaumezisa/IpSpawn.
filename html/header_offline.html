@@ -72,15 +72,27 @@
     </style>
     <nav class="site-header sticky-top py-1 bg-dark">
       <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-3" href="#">
-          <svg xmlns="style/pictures/svg/Ipspawn.svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" </svg>
-        </a>
-        <a class="py-3 d-none d-md-inline-block text-danger btn" href="#"><h6>Cours</h6></a>
-        <a class="py-3 d-none d-md-inline-block text-danger btn" href="#"><h6>Script</h6></a>
-        <a class="py-3 d-none d-md-inline-block text-danger btn" href="sign_in.php"><h6>Connexion</h6></a>
-        <form class="form-inline mt-4 mt-md-0 mb-1 ">
-          <input class="form-control mr-sm-2" type="text" size="13" style="height:25px;" placeholder="Recherche" aria-label="Search">
-          <button class="btn btn-secondary btn-sm " type="submit">Valider</button>
-        </form>
+        <div class="row">
+          <div class="col-3 mt-2">
+            <a class="py-3 " href="#">
+              <img width="34%"src="style/pictures/png/favicon.png"
+            </a>
+          </div>
+          <div class="col-2 mt-1">
+                <a class="py-3 d-none d-md-inline-block text-danger btn" href="#"><img width="22%" src="style/pictures/png/icon_books.png"><h5>Cours</h5></a>
+          </div>
+          <div class="col-2 mt-1">
+            <a class="py-3 d-none d-md-inline-block text-danger btn" href="#"><img width="22%" src="style/pictures/png/icon_shell.png"><h5>Script</h5></a>
+          </div>
+          <div class="col-2 mt-1">
+            <a class="py-3 d-none d-md-inline-block text-danger btn" href="sign_in.php"><img width="22%"src="style/pictures/png/icon_log_in.png"><h5>Connexion</h5></a>
+          </div>
+          <div class="col-3 mt-4">
+            <form class="form-inline mt-2 mb-1 ">
+                <input class="form-control mr-sm-2 ml-4" type="text" size="12" style="height:25px;" placeholder="Recherche" aria-label="Search">
+                <button class="btn btn-secondary btn-sm " type="submit">Valider</button>
+            </form>
+          </div>
+        </div>
       </div>
     </nav>

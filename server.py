@@ -27,10 +27,16 @@ def sign_up_or_sign_in_page():
     return page
 
 
+# SIGN UP ---------------------------------------------------------------------
 @serv.post("/sign_up.php")
 def sign_up():
     from controller import subscribe
-
+    # VERIFY THE USERS INPUT --------------------------------------------------
+    checklist = subscribe.subscribe()
+    # CREATE THE MESSAGE FOR THE ERRORS OR SUCCESS ----------------------------
+    msg = subscribe.message_subscribe(checklist)
+    page = template(header)+msg+template("./html/sign.html")+template(footer)
+    return page
 
 @serv.post("/sign_in.php")
 def sign_in():
@@ -71,4 +77,4 @@ def send_image(filename):
     )
 
 
-run(serv, host="localhost", port=9090, reloader=True, debug=True)
+run(serv, host="192.168.1.8", port=9090, reloader=True, debug=True)
