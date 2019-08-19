@@ -5,12 +5,18 @@ import bottle_session
 
 # IMPORT THE LOCAL MODULES ----------------------------------------------------
 from controller import functions_database
-from controller import functions_connexion
 
 # CONNEXION TO THE DATABASE ---------------------------------------------------
 connect = functions_database.connected()
 
+# FUNCTION AUTHENTIFICATION ---------------------------------------------------
+def authentification(connect, query):
+    db = connect.cursor()
+    db_query = db.execute(query)
+    db_auth = db.fetchone()
+    return db_auth
 
+# FUNCTION TO VERIFY IF THE PASSWORDS MATCH -----------------------------------
 def login():
     auth = {
         'email': request.forms.get("email"),
@@ -20,16 +26,15 @@ def login():
         "auth": "0"
     }
 
-    # FUNCTION TO VERIFY IF THE PASSWORDS MATCH -------------------------------
     query = "SELECT COUNT(PASSWORD)\
         FROM USERS\
         WHERE EMAIL = '{email}'\
         AND PASSWORD = '{password}';\
         ".format(email=auth["email"], password=auth["password"])
 
-    pass = functions_connexion.auth(functions_database.connected(), query)
+    passw = authentification(functions_database.connected(), query)
 
-    if(pass[0] == 1):
+    if(passw[0] == 1):
         checklist["auth"] = True
     else:
         checklist["auth"] = False
@@ -40,9 +45,12 @@ def login():
 def redirection_login(checklist):
     if(checklist is True):
         print("CONNECTED")
-        # SESSION OPEN
+        # SESSION OPENING -----------------------------------------------------
         session['status_now'] = "online"
-        # user_name = session.get('name')
+        s = request.environ.get('beaker.session')
+        s['connected'] = s.get('connected', "yes")
+        s.save()
+        #return s['connected']
         page = template(header)+template("./html/index.html")+template(footer)
         return page
     elif (checklist is False):
@@ -52,3 +60,14 @@ def redirection_login(checklist):
         message_banniere = "<div class='container-fluid "+color+"'><center>\
         "+message+"</center></div>"
         return message_banniere
+
+def is_connected():
+    s = request.environ.get('beaker.session')
+    try:
+        s["connected"]
+    except (NameError,TypeError):
+        header = "./html/header_offline.html"
+    else:
+        if(s["connected"] == "yes"):
+            header = "./html/header_online.html"
+    return(header)

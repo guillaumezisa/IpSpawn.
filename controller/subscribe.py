@@ -6,11 +6,36 @@ import datetime
 
 # IMPORT THE LOCAL MODULES ----------------------------------------------------
 from controller import functions_database
-from controller import functions_subscribe
 
 # CONNEXION TO THE DATABASE ---------------------------------------------------
 connect = functions_database.connected()
 
+# FUNCTION TO VERIFY IF THE PASSWORD IS CORRECT -------------------------------
+def verify_pass(pass1, pass2):
+    if (pass1 != pass2):
+        return 1
+    elif (len(pass1) < 4):
+        return 2
+    elif (len(pass1) > 50):
+        return 3
+    else:
+        return 0
+
+
+# FUNCTION TO VERIFY IF THE EMAIL IS NOT ALREADY EXISTING ---------------------
+def verify_email(connect, email, query):
+    db = connect.cursor()
+    db_query = db.execute(query)
+    db_email = db.fetchone()
+    return db_email
+
+
+# FUNCTION TO VERIFY IF THE PSEUDO IS NOT ALREADY EXISTING --------------------
+def verify_pseudo(connect, pseudo, query):
+    db = connect.cursor()
+    db_query = db.execute(query)
+    db_pseudo = db.fetchone()
+    return db_pseudo
 
 # FUNCTION SUBSCRIBE
 def subscribe():
@@ -32,7 +57,7 @@ def subscribe():
         "pseudo": "0"
     }
     # FUNCTION TO VERIFY IF THE PASSWORDS MATCH -------------------------------
-    pass_check = functions_subscribe.verify_pass(
+    pass_check = verify_pass(
         subscriber["pass1"], subscriber["pass2"]
     )
     if (pass_check == 1):
@@ -49,7 +74,7 @@ def subscribe():
         WHERE EMAIL ='{email}';\
     ".format(email=subscriber["email"])
 
-    email_check = functions_subscribe.verify_email(
+    email_check = verify_email(
         connect, subscriber["email"], query
         )
 
@@ -63,7 +88,7 @@ def subscribe():
         FROM USERS\
         WHERE PSEUDO = '{psd}';".format(psd=subscriber["pseudo"])
 
-    pseudo_check = functions_subscribe.verify_pseudo(
+    pseudo_check = verify_pseudo(
         connect, subscriber["pseudo"], query
     )
     if (pseudo_check[0] != 0):
