@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from bottle import request
-import psycopg2
 import datetime
 
 
@@ -10,12 +9,7 @@ from controller import functions_database
 from controller import functions_subscribe
 
 # CONNEXION TO THE DATABASE ---------------------------------------------------
-connect = psycopg2.connect(
-    host='172.19.0.3',
-    user='postgres',
-    password='facauchere',
-    dbname='ipspawn'
-)
+connect = functions_database.connected()
 
 
 # FUNCTION SUBSCRIBE
@@ -31,7 +25,8 @@ def subscribe():
         'pp': "profiles_pictures/nopic.png",
         'date': str(datetime.date.today())
     }
-    checklist = {
+    # CL = CHECKLIST
+    cl = {
         "pass": "0",
         "email": "0",
         "pseudo": "0"
@@ -41,12 +36,12 @@ def subscribe():
         subscriber["pass1"], subscriber["pass2"]
     )
     if (pass_check == 1):
-        checklist["pass"] = "Le mot de passe n'est pas identique."
+        cl["pass"] = "Le mot de passe n'est pas identique."
     elif (pass_check == 2 or pass_check == 3):
-        checklist["pass"] = "Le mot de passe doit faire \
+        cl["pass"] = "Le mot de passe doit faire \
         entre 4 et 50 charactères."
     elif (pass_check == 0):
-        checklist["pass"] = True
+        cl["pass"] = True
 
     # FUNCTION TO VERIFY IF THE MAIL IS ALREADY TAKEN -------------------------
     query = "SELECT COUNT(EMAIL)\
@@ -59,9 +54,9 @@ def subscribe():
         )
 
     if (email_check[0] != 0):
-        checklist["email"] = "L'email entrée existe déjà."
+        cl["email"] = "L'email entrée existe déjà."
     else:
-        checklist["email"] = True
+        cl["email"] = True
 
     # FUNCTION TO VERIFY IF THE PSEUDO IS ALREADY TAKEN -----------------------
     query = "SELECT COUNT(PSEUDO)\
@@ -72,11 +67,11 @@ def subscribe():
         connect, subscriber["pseudo"], query
     )
     if (pseudo_check[0] != 0):
-        checklist["pseudo"] = "Le pseudo choisit éxiste déjà."
+        cl["pseudo"] = "Le pseudo choisit éxiste déjà."
     else:
-        checklist["pseudo"] = True
+        cl["pseudo"] = True
 
-    if (checklist["pass"] and checklist["email"] and checklist["pseudo"]):
+    if (cl["pass"] and cl["email"] and cl["pseudo"]):
         # FINALLY INSERT TO THE DATABASE --------------------------------------
         query = "INSERT INTO USERS \
             (EMAIL,PSEUDO,PASSWORD,POINTS,STATUS,PP,DATES)VALUES \
@@ -87,22 +82,24 @@ def subscribe():
 
         functions_database.insert(connect, query)
 
-    return checklist
+    return cl
 
-def message_subscribe( checklist ):
-        message="<br>"
-        if ( checklist["pass"] == True and checklist["email"] == True and checklist["pseudo"] == True):
-            message = "Vous avez bien été enregistré."
-            color = "bg-success"
-        if ( checklist["email"] != True ):
-            message = message + checklist['email'] +"<br>"
-            color = "bg-danger"
-        if ( checklist["pseudo"] != True ):
-            message = message + checklist['pseudo'] +"<br>"
-            color = "bg-danger"
-        if ( checklist["pass"] != True ):
-            message = message + checklist['pass'] +"<br>"
-            color = "bg-danger"
-        message = message + "<br>"
-        message_banniere = "<div class='container-fluid  "+color+"'><center>"+message+"</center></div>"
-        return message_banniere
+
+def message_subscribe(cl):
+    message = "<br>"
+    if (cl["pass"] is True and cl["email"] is True and cl["pseudo"] is True):
+        message = "Vous avez bien été enregistré."
+        color = "bg-success"
+    if (cl["email"] is not True):
+        message = message + cl['email'] + "<br>"
+        color = "bg-danger"
+    if (cl["pseudo"] is not True):
+        message = message + cl['pseudo'] + "<br>"
+        color = "bg-danger"
+    if (cl["pass"] is not True):
+        message = message + cl['pass'] + "<br>"
+        color = "bg-danger"
+    message = message + "<br>"
+    message_banniere = "<div class='container-fluid " + color + "'><center>\
+    " + message + "</center></div>"
+    return message_banniere
