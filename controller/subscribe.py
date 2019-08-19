@@ -10,6 +10,7 @@ from controller import functions_database
 # CONNEXION TO THE DATABASE ---------------------------------------------------
 connect = functions_database.connected()
 
+
 # FUNCTION TO VERIFY IF THE PASSWORD IS CORRECT -------------------------------
 def verify_pass(pass1, pass2):
     if (pass1 != pass2):
@@ -36,6 +37,7 @@ def verify_pseudo(connect, pseudo, query):
     db_query = db.execute(query)
     db_pseudo = db.fetchone()
     return db_pseudo
+
 
 # FUNCTION SUBSCRIBE
 def subscribe():
