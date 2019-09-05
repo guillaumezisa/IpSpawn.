@@ -1,0 +1,63 @@
+<div class="container mt-3">
+  <div class="row">
+  <!-- CONNEXION -->
+    <div class="col-1"></div>
+    <div class="col-4 align-self-center">
+      <form class="form-signin" action="/sign_in.php" method="POST">
+        <div class="text-center mb-4">
+          <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+        </div>
+
+        <div class="form-label-group">
+          <label class="ml-1" for="inputEmail">Addresse Email</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required autofocus>
+        </div>
+
+        <div class="form-label-group">
+          <label class="ml-1 mt-2" for="inputPassword">Mot de passe</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Mot de passe" name="password" required>
+        </div>
+
+        <div class="checkbox mb-3 mt-2">
+          <label class="h6">
+            <input type="checkbox" value="remember-me"> Se souvenir de moi
+          </label>
+        </div>
+        <button class="btn btn-lg btn-success btn-block" type="submit" name="sign-in">Connexion</button>
+      </form>
+    </div>
+    <div class="col-2"></div>
+    <!-- INSCRIPTION -->
+    <div class="col-4">
+      <form class="form-signin" action="/sign_up.php" method="POST">
+        <div class="text-center mb-4">
+          <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+        </div>
+        <div class="form-label-group">
+          <label class="ml-1" for="inputEmail">Addresse Email</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required autofocus>
+        </div>
+        <div class="form-label-group">
+            <label class="ml-1 mt-2" for="inputEmail">Pseudo</label>
+          <input type="text" class="form-control" placeholder="Pseudo" name="pseudo" required autofocus>
+        </div>
+        <div class="form-group">
+            <label class="ml-1 mt-2" for="pass1">Mot de passe</label>
+            <input type="password" class="form-control" id="pass1" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label class="ml-1" for="pass2">Confirmation du mot de passe</label>
+            <input type="password" class="form-control" id="pass2" name="password_verification" placeholder="Password">
+        </div>
+
+        <div class="checkbox mb-3">
+          <label class="h6">
+            <input type="checkbox" value="accept"> Accepter la politique
+          </label>
+        </div>
+        <button class="btn btn-lg btn-success btn-block" type="submit" name="sign_up">Inscription</button>
+      </form>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div><br>
