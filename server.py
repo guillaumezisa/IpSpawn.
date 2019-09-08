@@ -6,6 +6,7 @@ import datetime
 import psycopg2
 import os
 from controller import connexion
+from controller import view_account_settings
 
 action = Bottle()
 sub_action = Bottle()
@@ -17,7 +18,7 @@ header = connexion.is_connected()
 # INTIALISATION OF SESSIONS ---------------------------------------------------
 session = {
     'session.type': 'file',
-    'session.cookie_expires': 300,
+    'session.cookie_expires':3600,
     'session.data_dir': './data',
     'session.auto': True
 }
@@ -69,7 +70,10 @@ def sign_out():
 # ACCOUNT ---------------------------------------------------------------------
 @action.get("/account_settings.php")
 def settings_page():
-    return "settings page"
+    s = request.environ.get('beaker.session')
+    body = view_account_settings.gen(s['id_user'])
+    page = template(header)+body+template(footer)
+    return page
 
 
 @action.post("/account_settings.php")
@@ -93,6 +97,40 @@ def send_image(filename):
         root='./style/pictures/png/',
         mimetype='image/png'
     )
+
+@action.get('/profile_pictures/<filename:re:.*.png>')
+def send_image(filename):
+    return static_file(
+        filename,
+        root='./profile_pictures/',
+        mimetype='image/png'
+    )
+
+@action.get('/profile_pictures/<filename:re:.*.jpg>')
+def send_image(filename):
+    return static_file(
+        filename,
+        root='./profile_pictures/',
+        mimetype='image/jpg'
+    )
+# UPLOAD PICTURE PROFILE ------------------------------------------------------
+@action.post('/upload')
+def do_upload():
+    from controller import functions_database
+    upload     = request.files.get('upload')
+    name, ext = os.path.splitext(upload.filename)
+    if ext not in ('.png','.jpg','.jpeg'):
+        return 'File extension not allowed.'
+
+    s = request.environ.get('beaker.session')
+    save_path = "profile_pictures/"+str(s["id_user"])+ext
+    if(os.path.exists(save_path)):
+        os.remove(save_path)
+    upload.save(save_path) # appends upload.filename automatically
+    query = "UPDATE USERS SET pp='"+save_path+"' WHERE id_user='"+str(s["id_user"])+"';"
+    functions_database.update(functions_database.connected(), query)
+
+    return 'OK'
 
 
 run(app=app, host="192.168.1.8", port=9090, reloader=True, debug=True)

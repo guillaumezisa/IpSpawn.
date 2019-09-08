@@ -47,8 +47,18 @@ def login():
 # FUNCTION TO OPEN A NEW SESSION AND CONNECT THE USER -------------------------
 def redirection_login(checklist, header, footer):
     if(checklist["auth"] is True):
+        # GATHER THE ID OF THE USER -------------------------------------------
+        auth = {
+            'email': request.forms.get("email"),
+            'password': request.forms.get("password")
+        }
+        query = "SELECT id_user FROM USERS WHERE email='"+auth["email"]+"';"
+        id_user = functions_database.get_id_user(connect, query)
+        id = id_user[0]
+        # ADD SESSION VARIABLES -----------------------------------------------
         s = request.environ.get('beaker.session')
         s['connected'] = s.get('connected', "yes")
+        s['id_user'] = s.get('id_user', id)
         s.save()
         page = template("./html/header_online.html") + \
             template("./html/index.html") + template(footer)
